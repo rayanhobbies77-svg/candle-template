@@ -1,0 +1,2 @@
+# candle-template
+Candle Shop
