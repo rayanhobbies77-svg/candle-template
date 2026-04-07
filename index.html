@@ -1,25 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Candle Shop</title>
+  <title>GlowNest Candles</title>
   <style>
-    body { font-family: Arial; text-align: center; background: #fff5f0; }
-    h1 { color: #ff7a5c; }
-    .card { background: white; padding: 20px; margin: 20px; border-radius: 10px; }
+    body {
+      font-family: Arial;
+      margin: 0;
+      background: #fff5f0;
+      text-align: center;
+    }
+    header {
+      background: #ff7a5c;
+      color: white;
+      padding: 20px;
+      font-size: 24px;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 15px;
+      border-radius: 12px;
+      width: 200px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #ff7a5c;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-<h1>My Candle Shop 🕯️</h1>
+<header>🕯️ GlowNest Candles</header>
 
-<div class="card">
-  <h2>Vanilla Glow</h2>
-  <p>£15</p>
-</div>
+<div class="container">
 
-<div class="card">
-  <h2>Lavender Calm</h2>
-  <p>£25</p>
+  <div class="card">
+    <h2>Vanilla Glow</h2>
+    <p>£15</p>
+    <button>Buy</button>
+  </div>
+
+  <div class="card">
+    <h2>Lavender Calm</h2>
+    <p>£25</p>
+    <button>Buy</button>
+  </div>
+
 </div>
 
 </body>
