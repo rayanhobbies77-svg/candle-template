@@ -2,37 +2,53 @@
 <html>
 <head>
   <title>GlowNest Candles</title>
+
   <style>
     body {
       font-family: Arial;
       margin: 0;
-      background: #fdf6f0;
+      background: #f5f5f5;
+      transition: 0.3s;
     }
 
     header {
-      background: #ff9966;
-      padding: 20px;
-      text-align: center;
-      font-size: 28px;
-      font-weight: bold;
+      background: #232f3e;
+      color: white;
+      padding: 15px;
+      font-size: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dark {
+      background: #121212;
       color: white;
     }
 
     .container {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
       gap: 20px;
       padding: 20px;
+      justify-content: center;
     }
 
     .product {
       background: white;
-      width: 250px;
-      border-radius: 15px;
-      padding: 15px;
+      width: 220px;
+      border-radius: 10px;
+      padding: 10px;
       text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+
+    .dark .product {
+      background: #1e1e1e;
+    }
+
+    .product:hover {
+      transform: scale(1.05);
     }
 
     .product img {
@@ -41,123 +57,126 @@
     }
 
     button {
-      margin-top: 10px;
-      padding: 10px;
-      width: 100%;
+      padding: 8px;
       border: none;
-      background: #ff6600;
+      background: #ff9900;
       color: white;
-      border-radius: 10px;
+      border-radius: 5px;
       cursor: pointer;
     }
 
-    #checkout {
-      display: none;
+    #cart {
+      position: fixed;
+      right: 0;
+      top: 60px;
+      width: 250px;
       background: white;
-      padding: 20px;
-      margin: 20px;
-      border-radius: 15px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 10px;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .dark #cart {
+      background: #1e1e1e;
     }
 
     input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-    }
-
-    #orders {
-      background: white;
-      margin: 20px;
-      padding: 15px;
-      border-radius: 15px;
+      width: 90%;
+      margin: 5px;
+      padding: 8px;
     }
   </style>
 </head>
 
 <body>
 
-<header>🕯️ GlowNest Candles</header>
+<header>
+  🕯️ GlowNest
+  <div>
+    <button onclick="toggleDark()">🌙</button>
+  </div>
+</header>
 
 <div class="container">
 
   <div class="product">
     <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59">
-    <h3>Vanilla Candle</h3>
-    <p>£10</p>
-    <button onclick="buy('Vanilla Candle', 5)">Buy</button>
+    <h3>Vanilla</h3>
+    <p>£5</p>
+    <button onclick="addToCart('Vanilla',5)">Add</button>
   </div>
 
   <div class="product">
     <img src="https://images.unsplash.com/photo-1602526216430-7f5caa7b9c88">
-    <h3>Lavender Candle</h3>
-    <p>£15</p>
-    <button onclick="buy('Lavender Candle', 6)">Buy</button>
+    <h3>Lavender</h3>
+    <p>£6</p>
+    <button onclick="addToCart('Lavender',6)">Add</button>
   </div>
 
   <div class="product">
     <img src="https://images.unsplash.com/photo-1612197528163-9d6c1b3f8fbb">
-    <h3>Honey Candle</h3>
-    <p>£20</p>
-    <button onclick="buy('Honey Candle', 7)">Buy</button>
+    <h3>Chocolate</h3>
+    <p>£7</p>
+    <button onclick="addToCart('Chocolate',7)">Add</button>
   </div>
 
 </div>
 
-<!-- CHECKOUT -->
-<div id="checkout">
-  <h2>Checkout</h2>
-  <p id="productName"></p>
+<!-- CART -->
+<div id="cart">
+  <h3>🛒 Cart</h3>
+  <ul id="cartList"></ul>
+  <p>Total: £<span id="total">0</span></p>
 
-  <input id="name" placeholder="Full Name">
+  <h4>Checkout</h4>
+  <input id="name" placeholder="Name">
   <input id="address" placeholder="Address">
-  <input id="city" placeholder="City">
-  <input id="postcode" placeholder="Postcode">
 
-  <button onclick="placeOrder()">Place Order</button>
-</div>
+  <button onclick="checkout()">Pay (Demo)</button>
 
-<!-- SAVED ORDERS -->
-<div id="orders">
-  <h2>📦 Orders</h2>
-  <ul id="orderList"></ul>
+  <h4>Orders</h4>
+  <ul id="orders"></ul>
 </div>
 
 <script>
-let selectedProduct = "";
-let selectedPrice = 0;
+let cart = [];
+let total = 0;
 
-function buy(product, price) {
-  selectedProduct = product;
-  selectedPrice = price;
+function addToCart(name, price) {
+  cart.push({name, price});
+  total += price;
 
-  document.getElementById("checkout").style.display = "block";
-  document.getElementById("productName").innerText =
-    product + " - £" + price;
+  let li = document.createElement("li");
+  li.innerText = name + " £" + price;
+  document.getElementById("cartList").appendChild(li);
+
+  document.getElementById("total").innerText = total;
 }
 
-function placeOrder() {
+function checkout() {
   let name = document.getElementById("name").value;
-  let address = document.getElementById("address").value;
 
-  if (!name || !address) {
-    alert("Please fill all details!");
+  if (!name || cart.length === 0) {
+    alert("Fill info or add items!");
     return;
   }
 
-  let orderText = name + " ordered " + selectedProduct + " (£" + selectedPrice + ")";
-  
+  let order = name + " ordered £" + total;
+
   let li = document.createElement("li");
-  li.innerText = orderText;
-  document.getElementById("orderList").appendChild(li);
+  li.innerText = order;
+  document.getElementById("orders").appendChild(li);
 
-  alert("✅ Order placed!");
+  alert("✅ Payment successful (demo)");
 
-  // Clear form
-  document.getElementById("checkout").style.display = "none";
+  cart = [];
+  total = 0;
+  document.getElementById("cartList").innerHTML = "";
+  document.getElementById("total").innerText = "0";
+}
+
+function toggleDark() {
+  document.body.classList.toggle("dark");
 }
 </script>
 
