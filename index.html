@@ -9,7 +9,6 @@
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont;
       background: #f5f5f7;
-      color: #111;
       transition: 0.3s;
     }
 
@@ -19,39 +18,50 @@
     }
 
     header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
       display: flex;
       justify-content: space-between;
       padding: 20px;
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
+      background: rgba(255,255,255,0.8);
     }
 
     .hero {
-      text-align: center;
-      padding: 80px 20px;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       animation: fadeIn 1s ease;
     }
 
     .hero h1 {
-      font-size: 40px;
-      margin: 0;
+      font-size: 50px;
+    }
+
+    section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .image-section {
+      height: 400px;
+      background-size: cover;
+      background-position: center;
     }
 
     .products {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-      gap: 25px;
-      padding: 20px;
+      gap: 20px;
     }
 
     .product {
       background: white;
-      border-radius: 20px;
       padding: 15px;
-      text-align: center;
+      border-radius: 20px;
       transition: 0.3s;
-      animation: fadeUp 0.8s ease;
     }
 
     .dark .product {
@@ -70,7 +80,6 @@
     }
 
     button {
-      margin-top: 10px;
       padding: 10px;
       border: none;
       border-radius: 10px;
@@ -79,32 +88,17 @@
       cursor: pointer;
     }
 
-    .dark button {
-      background: white;
-      color: black;
-    }
-
     #cart {
       position: fixed;
       bottom: 0;
       width: 100%;
       background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(10px);
       padding: 10px;
-    }
-
-    .dark #cart {
-      background: rgba(0,0,0,0.9);
     }
 
     @keyframes fadeIn {
       from {opacity:0;}
       to {opacity:1;}
-    }
-
-    @keyframes fadeUp {
-      from {opacity:0; transform: translateY(20px);}
-      to {opacity:1; transform: translateY(0);}
     }
   </style>
 </head>
@@ -117,35 +111,49 @@
 </header>
 
 <div class="hero">
-  <h1>Luxury Candles</h1>
-  <p>Designed for calm living</p>
+  <h1>GlowNest Candles</h1>
+  <p>Luxury. Calm. Aesthetic.</p>
 </div>
 
-<div class="products">
+<div class="image-section" style="background-image:url('https://images.unsplash.com/photo-1603006905003-be475563bc59');"></div>
 
-  <div class="product">
-    <img src="https://images.unsplash.com/photo-1602526216430-7f5caa7b9c88">
-    <h3>Lavender Calm</h3>
-    <p>£6</p>
-    <button onclick="addToCart('Lavender',6)">Add</button>
+<section>
+  <h2>Our Collection</h2>
+
+  <div class="products">
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1602526216430-7f5caa7b9c88">
+      <h3>Lavender Calm</h3>
+      <p>£6</p>
+      <button onclick="addToCart('Lavender',6)">Add</button>
+    </div>
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59">
+      <h3>Vanilla Glow</h3>
+      <p>£5</p>
+      <button onclick="addToCart('Vanilla',5)">Add</button>
+    </div>
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1612197528163-9d6c1b3f8fbb">
+      <h3>Chocolate Warmth</h3>
+      <p>£7</p>
+      <button onclick="addToCart('Chocolate',7)">Add</button>
+    </div>
+
   </div>
+</section>
 
-  <div class="product">
-    <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59">
-    <h3>Vanilla Glow</h3>
-    <p>£5</p>
-    <button onclick="addToCart('Vanilla',5)">Add</button>
-  </div>
+<div class="image-section" style="background-image:url('https://images.unsplash.com/photo-1612197528163-9d6c1b3f8fbb');"></div>
 
-  <div class="product">
-    <img src="https://images.unsplash.com/photo-1612197528163-9d6c1b3f8fbb">
-    <h3>Chocolate Warmth</h3>
-    <p>£7</p>
-    <button onclick="addToCart('Chocolate',7)">Add</button>
-  </div>
+<section>
+  <h2>Why GlowNest?</h2>
+  <p>Designed to relax your mind and upgrade your space.</p>
+</section>
 
-</div>
-
+<!-- CART -->
 <div id="cart">
   🛒 £<span id="total">0</span>
   <button onclick="checkout()">Checkout</button>
@@ -167,9 +175,8 @@ function addToCart(name, price) {
 
 function checkout() {
   localStorage.setItem("orders", JSON.stringify(cart));
-  alert("Order saved! (Demo payment)");
 
-  // STRIPE PLACEHOLDER
+  // STRIPE LINK (replace later)
   window.open("https://buy.stripe.com/test");
 
   cart = [];
@@ -181,9 +188,7 @@ function checkout() {
 function toggleDark() {
   document.body.classList.toggle("dark");
 }
-
-</script> 
+</script>
 
 </body>
 </html>
-
