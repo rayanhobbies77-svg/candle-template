@@ -1,103 +1,144 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GlowNest Candles</title>
+  <title>GlowNest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
-      font-family: Arial;
       margin: 0;
-      background: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, Arial;
+      background: #f5f5f7;
       transition: 0.3s;
     }
 
-    header {
-      background: #232f3e;
+    .dark {
+      background: #111;
       color: white;
-      padding: 15px;
-      font-size: 24px;
+    }
+
+    header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      padding: 15px 20px;
+      background: white;
+      position: sticky;
+      top: 0;
     }
 
-    .dark {
-      background: #121212;
-      color: white;
+    .dark header {
+      background: #1c1c1e;
     }
 
-    .container {
-      display: flex;
-      flex-wrap: wrap;
+    .title {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
       gap: 20px;
       padding: 20px;
-      justify-content: center;
     }
 
     .product {
       background: white;
-      width: 220px;
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 20px;
+      padding: 15px;
       text-align: center;
       transition: 0.3s;
     }
 
     .dark .product {
-      background: #1e1e1e;
+      background: #1c1c1e;
     }
 
     .product:hover {
-      transform: scale(1.05);
+      transform: translateY(-5px);
     }
 
     .product img {
       width: 100%;
-      border-radius: 10px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 15px;
     }
 
     button {
-      padding: 8px;
+      margin-top: 10px;
+      padding: 10px;
       border: none;
-      background: #ff9900;
+      border-radius: 10px;
+      background: black;
       color: white;
-      border-radius: 5px;
       cursor: pointer;
+    }
+
+    .dark button {
+      background: white;
+      color: black;
     }
 
     #cart {
       position: fixed;
-      right: 0;
-      top: 60px;
-      width: 250px;
+      bottom: 0;
+      width: 100%;
       background: white;
       padding: 10px;
-      height: 100%;
-      overflow-y: auto;
     }
 
     .dark #cart {
-      background: #1e1e1e;
+      background: #1c1c1e;
     }
 
     input {
-      width: 90%;
+      padding: 10px;
       margin: 5px;
-      padding: 8px;
+      width: 90%;
+    }
+
+    #login {
+      text-align: center;
+      padding: 30px;
     }
   </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+<div id="login">
+  <h2>Login</h2>
+  <input id="username" placeholder="Enter name">
+  <button onclick="login()">Enter</button>
+</div>
+
+<div id="main" style="display:none;">
+
 <header>
-  🕯️ GlowNest
+  <div class="title">GlowNest</div>
   <div>
     <button onclick="toggleDark()">🌙</button>
   </div>
 </header>
 
-<div class="container">
+<div class="hero">
+  <h1>Luxury Candles</h1>
+  <p>Clean. Calm. Glow.</p>
+</div>
+
+<div class="products">
 
   <div class="product">
     <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59">
@@ -122,61 +163,57 @@
 
 </div>
 
+<!-- UPLOAD IMAGE -->
+<div style="text-align:center; padding:20px;">
+  <h3>Upload Your Own Product Image</h3>
+  <input type="file" onchange="uploadImage(event)">
+  <img id="preview" style="width:150px; display:block; margin:auto;">
+</div>
+
 <!-- CART -->
 <div id="cart">
-  <h3>🛒 Cart</h3>
-  <ul id="cartList"></ul>
-  <p>Total: £<span id="total">0</span></p>
+  🛒 Total: £<span id="total">0</span>
+  <button onclick="checkout()">Checkout</button>
+</div>
 
-  <h4>Checkout</h4>
-  <input id="name" placeholder="Name">
-  <input id="address" placeholder="Address">
-
-  <button onclick="checkout()">Pay (Demo)</button>
-
-  <h4>Orders</h4>
-  <ul id="orders"></ul>
 </div>
 
 <script>
 let cart = [];
 let total = 0;
 
+function login() {
+  let user = document.getElementById("username").value;
+  if (!user) return alert("Enter name");
+
+  localStorage.setItem("user", user);
+  document.getElementById("login").style.display = "none";
+  document.getElementById("main").style.display = "block";
+}
+
 function addToCart(name, price) {
   cart.push({name, price});
   total += price;
-
-  let li = document.createElement("li");
-  li.innerText = name + " £" + price;
-  document.getElementById("cartList").appendChild(li);
-
   document.getElementById("total").innerText = total;
 }
 
 function checkout() {
-  let name = document.getElementById("name").value;
-
-  if (!name || cart.length === 0) {
-    alert("Fill info or add items!");
-    return;
-  }
-
-  let order = name + " ordered £" + total;
-
-  let li = document.createElement("li");
-  li.innerText = order;
-  document.getElementById("orders").appendChild(li);
-
-  alert("✅ Payment successful (demo)");
-
+  alert("Order placed for £" + total);
   cart = [];
   total = 0;
-  document.getElementById("cartList").innerHTML = "";
-  document.getElementById("total").innerText = "0";
+  document.getElementById("total").innerText = 0;
 }
 
 function toggleDark() {
   document.body.classList.toggle("dark");
+}
+
+function uploadImage(event) {
+  let reader = new FileReader();
+  reader.onload = function(){
+    document.getElementById("preview").src = reader.result;
+  }
+  reader.readAsDataURL(event.target.files[0]);
 }
 </script>
 
