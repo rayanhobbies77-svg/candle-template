@@ -5,27 +5,44 @@
   <style>
     body {
       font-family: Arial;
+      background: #fff5e6;
       text-align: center;
-      background-color: #fff5e6;
       margin: 0;
     }
     header {
-      background-color: #ffcc99;
+      background: #ffb366;
       padding: 20px;
-      font-size: 24px;
+      font-size: 28px;
       font-weight: bold;
     }
-    .section {
+    .product {
+      background: white;
+      margin: 20px auto;
       padding: 20px;
+      width: 250px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     button {
       padding: 10px 20px;
-      background-color: orange;
+      background: orange;
       border: none;
       color: white;
-      font-size: 16px;
-      cursor: pointer;
       border-radius: 10px;
+      cursor: pointer;
+    }
+    #checkout {
+      display: none;
+      background: white;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 15px;
+    }
+    input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 80%;
     }
   </style>
 </head>
@@ -34,21 +51,48 @@
 
 <header>🕯️ GlowNest Candles</header>
 
-<div class="section">
-  <h2>Welcome!</h2>
-  <p>Handmade candles for a cozy vibe 🔥</p>
+<!-- PRODUCTS -->
+<div class="product">
+  <h3>Vanilla Candle</h3>
+  <p>£10</p>
+  <button onclick="buy('Vanilla Candle')">Buy</button>
 </div>
 
-<div class="section">
-  <h2>Our Candles</h2>
-  <p>Vanilla • Lavender • Honey</p>
-  <button>Buy Now</button>
+<div class="product">
+  <h3>Lavender Candle</h3>
+  <p>£15</p>
+  <button onclick="buy('Lavender Candle')">Buy</button>
 </div>
 
-<div class="section">
-  <h2>Contact</h2>
-  <p>Email: rayanhobbies77@gmail.com</p>
+<div class="product">
+  <h3>Honey Candle</h3>
+  <p>£20</p>
+  <button onclick="buy('Chocolate Candle')">Buy</button>
 </div>
+
+<!-- CHECKOUT -->
+<div id="checkout">
+  <h2>Checkout</h2>
+  <p id="productName"></p>
+
+  <input type="text" placeholder="Full Name">
+  <input type="text" placeholder="Address">
+  <input type="text" placeholder="City">
+  <input type="text" placeholder="Postcode">
+
+  <button onclick="placeOrder()">Place Order</button>
+</div>
+
+<script>
+function buy(product) {
+  document.getElementById("checkout").style.display = "block";
+  document.getElementById("productName").innerText = "Buying: " + product;
+}
+
+function placeOrder() {
+  alert("✅ Order placed! We will contact you soon.");
+}
+</script>
 
 </body>
 </html>
