@@ -5,44 +5,75 @@
   <style>
     body {
       font-family: Arial;
-      background: #fff5e6;
-      text-align: center;
       margin: 0;
+      background: #fdf6f0;
     }
+
     header {
-      background: #ffb366;
+      background: #ff9966;
       padding: 20px;
+      text-align: center;
       font-size: 28px;
       font-weight: bold;
+      color: white;
     }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+    }
+
     .product {
       background: white;
-      margin: 20px auto;
-      padding: 20px;
       width: 250px;
       border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+
+    .product img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
     button {
-      padding: 10px 20px;
-      background: orange;
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
       border: none;
+      background: #ff6600;
       color: white;
       border-radius: 10px;
       cursor: pointer;
     }
+
     #checkout {
       display: none;
       background: white;
       padding: 20px;
       margin: 20px;
       border-radius: 15px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+
     input {
-      display: block;
-      margin: 10px auto;
+      width: 100%;
       padding: 10px;
-      width: 80%;
+      margin: 8px 0;
+    }
+
+    #orders {
+      background: white;
+      margin: 20px;
+      padding: 15px;
+      border-radius: 15px;
     }
   </style>
 </head>
@@ -51,23 +82,29 @@
 
 <header>🕯️ GlowNest Candles</header>
 
-<!-- PRODUCTS -->
-<div class="product">
-  <h3>Vanilla Candle</h3>
-  <p>£10</p>
-  <button onclick="buy('Vanilla Candle')">Buy</button>
-</div>
+<div class="container">
 
-<div class="product">
-  <h3>Lavender Candle</h3>
-  <p>£15</p>
-  <button onclick="buy('Lavender Candle')">Buy</button>
-</div>
+  <div class="product">
+    <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59">
+    <h3>Vanilla Candle</h3>
+    <p>£10</p>
+    <button onclick="buy('Vanilla Candle', 5)">Buy</button>
+  </div>
 
-<div class="product">
-  <h3>Honey Candle</h3>
-  <p>£20</p>
-  <button onclick="buy('Chocolate Candle')">Buy</button>
+  <div class="product">
+    <img src="https://images.unsplash.com/photo-1602526216430-7f5caa7b9c88">
+    <h3>Lavender Candle</h3>
+    <p>£15</p>
+    <button onclick="buy('Lavender Candle', 6)">Buy</button>
+  </div>
+
+  <div class="product">
+    <img src="https://images.unsplash.com/photo-1612197528163-9d6c1b3f8fbb">
+    <h3>Honey Candle</h3>
+    <p>£20</p>
+    <button onclick="buy('Honey Candle', 7)">Buy</button>
+  </div>
+
 </div>
 
 <!-- CHECKOUT -->
@@ -75,22 +112,52 @@
   <h2>Checkout</h2>
   <p id="productName"></p>
 
-  <input type="text" placeholder="Full Name">
-  <input type="text" placeholder="Address">
-  <input type="text" placeholder="City">
-  <input type="text" placeholder="Postcode">
+  <input id="name" placeholder="Full Name">
+  <input id="address" placeholder="Address">
+  <input id="city" placeholder="City">
+  <input id="postcode" placeholder="Postcode">
 
   <button onclick="placeOrder()">Place Order</button>
 </div>
 
+<!-- SAVED ORDERS -->
+<div id="orders">
+  <h2>📦 Orders</h2>
+  <ul id="orderList"></ul>
+</div>
+
 <script>
-function buy(product) {
+let selectedProduct = "";
+let selectedPrice = 0;
+
+function buy(product, price) {
+  selectedProduct = product;
+  selectedPrice = price;
+
   document.getElementById("checkout").style.display = "block";
-  document.getElementById("productName").innerText = "Buying: " + product;
+  document.getElementById("productName").innerText =
+    product + " - £" + price;
 }
 
 function placeOrder() {
-  alert("✅ Order placed! We will contact you soon.");
+  let name = document.getElementById("name").value;
+  let address = document.getElementById("address").value;
+
+  if (!name || !address) {
+    alert("Please fill all details!");
+    return;
+  }
+
+  let orderText = name + " ordered " + selectedProduct + " (£" + selectedPrice + ")";
+  
+  let li = document.createElement("li");
+  li.innerText = orderText;
+  document.getElementById("orderList").appendChild(li);
+
+  alert("✅ Order placed!");
+
+  // Clear form
+  document.getElementById("checkout").style.display = "none";
 }
 </script>
 
