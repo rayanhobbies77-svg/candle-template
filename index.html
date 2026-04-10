@@ -188,13 +188,14 @@ function checkout() {
 function toggleDark() {
   document.body.classList.toggle("dark");
 
-  const db = firebase.firestore(db.collection("orders").add({
+  const db = firebase.firestore();
+db.collection("orders").add({
   user: user.email,
   items: cart,
   total: total,
   date: new Date()
-}););
-  
+});
+
 }
 </script>
 
