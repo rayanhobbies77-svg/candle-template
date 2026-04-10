@@ -188,23 +188,6 @@ function checkout() {
 function toggleDark() {
   document.body.classList.toggle("dark");
   
-apiKey: "// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBegxyhOLtvejdxNqVaVL0J4-TVnxwtlLc",
-  authDomain: "glownest-2k.firebaseapp.com",
-  projectId: "glownest-2k",
-  storageBucket: "glownest-2k.firebasestorage.app",
-  messagingSenderId: "914429273349",
-  appId: "1:914429273349:web:77c56aa40a40d8d299436c",
-  measurementId: "G-9JPNBC5D0W"};"
-const db = firebase.firestore();
-  db.collection("orders").add({
-  user: user.email,
-  items: cart,
-  total: total,
-  date: new Date()
-});
-  
 }
 </script>
 
